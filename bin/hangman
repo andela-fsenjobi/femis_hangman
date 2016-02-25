@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
-
 require "bundler/setup"
 require "femis_hangman"
 
-FemisHangman::Router.new.instructions_prompt.loop
+s = FemisHangman::Router.new
+s.instructions_prompt
+s.loop

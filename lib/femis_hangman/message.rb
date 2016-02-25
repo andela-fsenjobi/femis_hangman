@@ -8,7 +8,7 @@ module Message
   end
 
   def load_prompt
-    puts "Choose the game you want to resume from the list below\nPress the respective number"
+    puts "Choose the game you want to resume.rb from the list below\nPress the respective number"
   end
 
   def begin_prompt
@@ -16,7 +16,7 @@ module Message
   end
 
   def instructions_prompt
-    puts "########################################################\n\nThis gem is an implementation of the hangman game.\nAttempt to guess the missing letters correctly.\nYou have a limited number of tries.\nIf you use up all your chances without getting\nthe word correctly, you will be hanged.\n\n"
+    puts "########################################################\n\nThis gem is an implementation of the hangman.rb game.\nAttempt to guess the missing letters correctly.\nYou have a limited number of tries.\nIf you use up all your chances without getting\nthe word correctly, you will be hanged.\n\n"
     puts "To play a new game: Press 'p' or 'play'"
     puts "To load a saved game: Press 'l' or 'load'"
     puts "To show insructions: Press 'i' or 'instructions'"

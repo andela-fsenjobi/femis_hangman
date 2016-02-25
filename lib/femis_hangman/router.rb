@@ -1,10 +1,4 @@
-require 'word'
-require 'message'
-require 'word'
-require 'game'
-require 'YAML'
-
-module Hangman
+module FemisHangman
   class Router
     include(Message)
     attr_accessor :status, :difficulty, :feedback, :game
@@ -153,7 +147,7 @@ module Hangman
         process(gets.chomp!)
       end
 
-      repl["% Hangman-0.1.0: "] while @status != 'end'
+      repl["% Hangman-#{Hangman::VERSION}: "] while @status != 'end'
     end
   end
 end
