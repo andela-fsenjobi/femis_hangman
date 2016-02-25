@@ -8,7 +8,7 @@ module Message
   end
 
   def load_prompt
-    puts "Choose the game you want to resume.rb from the list below\nPress the respective number"
+    puts "Choose the game you want to resume from the list below\nPress the respective number"
   end
 
   def begin_prompt
@@ -16,12 +16,22 @@ module Message
   end
 
   def instructions_prompt
-    puts "########################################################\n\nThis gem is an implementation of the hangman.rb game.\nAttempt to guess the missing letters correctly.\nYou have a limited number of tries.\nIf you use up all your chances without getting\nthe word correctly, you will be hanged.\n\n"
-    puts "To play a new game: Press 'p' or 'play'"
-    puts "To load a saved game: Press 'l' or 'load'"
-    puts "To show insructions: Press 'i' or 'instructions'"
-    puts "To quit Hangman: Press 'q' or 'quit'"
-    puts "\n########################################################"
+    puts <<-PUTS
+########################################################
+
+This gem is an implementation of the hangman game.
+Attempt to guess the missing letters correctly.
+You have a limited number of tries.
+If you use up all your chances without getting
+the word correctly, you will be hanged.
+
+To play a new game: Press 'p' or 'play'
+To load a saved game: Press 'l' or 'load'
+To show insructions: Press 'i' or 'instructions'
+To quit Hangman: Press 'q' or 'quit'
+
+########################################################
+    PUTS
   end
 
   def save_prompt
@@ -38,7 +48,7 @@ module Message
   end
 
   def lost_gui(word)
-    puts <<-DEAD
+    puts <<-PUTS
 -+----------+-
  |          |
  |          o
@@ -51,11 +61,11 @@ You are dead!
 ################
 The word is #{word}
 ################
-    DEAD
+    PUTS
   end
 
   def won_gui(word)
-   puts <<-DEAD
+    puts <<-PUTS
 -+----------+-
  |          |
  |
@@ -68,20 +78,20 @@ You are free to go
 ################
 The word is #{word}
 ################
-    DEAD
+    PUTS
   end
 
   def level_prompt
-    puts "Choose your difficulty level\n\n1: Beginner\n2: Intermediate\n3: Advanced"
+    puts "Choose your difficulty level\n\n1: Beginner\n2: Intermediate\n3: Advanced\n"
   end
 
   def feedback_prompt
-    puts "Choose your feedback type\n\n1: Boring\n2: Funny"
+    puts "Choose your feedback type\n\n1: Boring\n2: Funny\n"
   end
 
 
   def replay_prompt
-    puts "Press 'r' or 'restart' to play again\nPress 'q' to quit"
+    puts "Press 'r' or 'restart' to play again\nPress 'q' to quit\n"
   end
 
   def invalid_prompt
@@ -109,6 +119,10 @@ The word is #{word}
   end
 
   def game_instruction_prompt
-    puts "Press ':h' or 'history' to view the letters you have used\nPress ':q' or 'quit' to quit (you can save before quiting)"
+    puts <<-PUTS
+Press ':h' or 'history' to view the letters you have used
+Press ':q' or 'quit' to quit (you can save before quiting)
+
+    PUTS
   end
 end
