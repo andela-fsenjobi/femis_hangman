@@ -1,5 +1,7 @@
 # Hangman
 
+[![Coverage Status](https://coveralls.io/repos/github/andela-fsenjobi/femis_hangman/badge.svg?branch=master)](https://coveralls.io/github/andela-fsenjobi/femis_hangman?branch=master)
+
 Hangman is a game of guesses. A word is randomly selected from a predefined list and you will be required to guess what it is. You will be told how long the word is and how many chances you have got. You have to guess right or get hanged!
 
 The game has three levels:
