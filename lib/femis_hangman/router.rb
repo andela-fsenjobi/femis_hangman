@@ -147,7 +147,7 @@ module FemisHangman
         process(gets.chomp!)
       end
 
-      repl["% Hangman-#{Hangman::VERSION}: "] while @status != 'end'
+      repl["% Hangman-#{FemisHangman::VERSION}: "] while @status != 'end'
     end
   end
 end

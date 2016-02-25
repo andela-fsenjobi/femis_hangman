@@ -2,10 +2,12 @@
 require "bundler/setup"
 require "femis_hangman"
 
-game = Game.new(2,2)
+s = FemisHangman::Router.new
+
 
 if ARGV.length > 2
-  game.invalid_prompt
+  session.invalid_prompt
 else
-  game.load_game(ARGV[1])
+  s.status = 'show'
+  s.show_saved_games
 end
