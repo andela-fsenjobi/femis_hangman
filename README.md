@@ -6,10 +6,12 @@ Hangman is a game of guesses. A word is randomly selected from a predefined list
 
 The game has three levels:
 1) Beginner       |  4-8 words          |  8 turns
+
 2) Intermediate   |  9-12 words         |  9 turns
+
 3) Advanced       |  Above 12           |  10 turns
 
-The game also has an option of either a boring or graphic output. The boring feedback type looks like `You are dead. The word is unforgatable` while the graphic feedback looks something like:
+The game also has an option of either a boring or graphic output. The boring feedback type looks like `You are dead. The word is unforgatable` while the graphic feedback looks something like a match stick drawing.
 
 ## Installation
 
