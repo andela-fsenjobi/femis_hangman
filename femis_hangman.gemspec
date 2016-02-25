@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["femi.senjobi@andela.com"]
 
   spec.summary       = "It is a do or die affiar. Get the words right or you'll be hanged"
-  spec.description   = "This gem is an implementation of the hangman game.\nAttempt to guess the missing letters correctly.\nYou have a limited number of tries.\nIf you use up all your chances without getting the word correctly,\nyou will be hanged."
+  spec.description   = "This gem is an implementation of the hangman.rb game.\nAttempt to guess the missing letters correctly.\nYou have a limited number of tries.\nIf you use up all your chances without getting the word correctly,\nyou will be hanged."
   spec.homepage      = "https://github.com/andela-fsenjobi/femis_hangman"
   spec.license       = "MIT"
 
@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "bin"
-  spec.executables   = ["hangman", "resume", "setup"]
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.11"

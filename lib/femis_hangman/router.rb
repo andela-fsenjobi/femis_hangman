@@ -1,12 +1,6 @@
-require 'word'
-require 'message'
-require 'word'
-require 'game'
-require 'YAML'
-
-module Hangman
+module FemisHangman
   class Router
-    include(Message)
+    include Message
     attr_accessor :status, :difficulty, :feedback, :game
     def initialize
       @status = 'begin'
