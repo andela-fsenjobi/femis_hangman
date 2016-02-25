@@ -1,8 +1,8 @@
-require 'router'
+require 'spec_helper'
 
-describe Word do
+describe FemisHangman::Word do
   context '.new(3, 2)' do
-    subject {Game.new(3, 2)}
+    subject {FemisHangman::Game.new(3, 2)}
     context "Word" do
       it { expect(subject.history).to eq([]) }
     end
@@ -25,7 +25,7 @@ describe Word do
   end
 
   context '.new(2, 2)' do
-    subject {Game.new(2, 2)}
+    subject {FemisHangman::Game.new(2, 2)}
     context "Game word length" do
       it { expect(subject.word.length).to be > 8 }
     end
@@ -36,7 +36,7 @@ describe Word do
   end
 
   context 'include_letter("a", ["a", "b", "c"])' do
-    game = Game.new(2,2)
+    game = FemisHangman::Game.new(2,2)
     game.history = ["a", "b", "c"]
     subject {game.include_letter("a", ["a", "b", "c"])}
     context "Game include letter" do
@@ -45,7 +45,7 @@ describe Word do
   end
 
   context 'include_letter("a", ["b", "c"])' do
-    game = Game.new(2,2)
+    game = FemisHangman::Game.new(2,2)
     game.history = ["b", "c"]
     subject {game.include_letter("a", game.history)}
     context "Game include letter" do
@@ -54,7 +54,7 @@ describe Word do
   end
 
   context 'Show output' do
-    game = Game.new(2,2)
+    game = FemisHangman::Game.new(2,2)
     game.history = ['a', 'b', 'c']
     game.word = 'elenor'
     context "Game include letter" do
@@ -63,7 +63,7 @@ describe Word do
   end
 
   context 'Show output' do
-    game = Game.new(2,2)
+    game = FemisHangman::Game.new(2,2)
     game.history = ['a', 'b', 'c']
     game.word = 'abacus'
     context "Print current game status" do
@@ -78,7 +78,7 @@ describe Word do
   end
 
   context 'Show output' do
-    game = Game.new(2,2)
+    game = FemisHangman::Game.new(2,2)
     game.history = ['a', 'b', 'c', 'u', 'j', 's']
     game.word = 'abacus'
     context "Print current game status" do
@@ -96,7 +96,7 @@ describe Word do
   end
 
   context 'Show output' do
-    game = Game.new(2,2)
+    game = FemisHangman::Game.new(2,2)
     game.turns = 0
     context "Check if game is won" do
       it { expect(game.won?).to be false }

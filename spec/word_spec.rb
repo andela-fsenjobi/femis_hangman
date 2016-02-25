@@ -1,10 +1,10 @@
-require 'router'
+require 'spec_helper'
 
-describe Word do
+describe FemisHangman::Word do
   context '.new(3, 2)' do
     context "Word" do
-      subject {Word.new}
-      it { expect(subject).to be_instance_of Word }
+      subject {FemisHangman::Word.new}
+      it { expect(subject).to be_instance_of FemisHangman::Word }
     end
 
     context "Game turns" do
