@@ -1,5 +1,2 @@
 require "femis_hangman/version"
-
-module FemisHangman
-  # Your code goes here...
-end
+require 'femis_hangman/router'

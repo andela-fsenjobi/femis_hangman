@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "femis_hangman"
+
+game = Game.new(2,2)
+
+if ARGV.length > 2
+    game.invalid_prompt
+else
+    game.load_game(ARGV[1])
+end
