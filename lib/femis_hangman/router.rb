@@ -1,5 +1,6 @@
 require 'word'
 require 'message'
+require 'word'
 require 'game'
 require 'YAML'
 
