@@ -5,10 +5,8 @@ module FemisHangman
       rand(41211).times { file.gets }
       word = clean_word($_)
       file.close
-      if confirm(difficulty, word)
-        word
-      else
-        generate(difficulty)
+      if confirm(difficulty, word) then word
+      else generate(difficulty)
       end
     end
 
@@ -21,7 +19,7 @@ module FemisHangman
     end
 
     def clean_word(word)
-      cleaned_word = word.gsub("\n", '')
+      word.delete("\n")
     end
   end
 end

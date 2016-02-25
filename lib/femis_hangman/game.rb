@@ -13,12 +13,9 @@ module FemisHangman
     end
 
     def control(input)
-      if input.size > 1
-        commands(input)
-      elsif input.size == 1
-        play(input)
-      else
-        invalid_prompt
+      if input.size > 1 then commands(input)
+      elsif input.size == 1 then play(input)
+      else invalid_prompt
       end
     end
 
@@ -39,12 +36,11 @@ module FemisHangman
     def include_letter(letter, history)
       if history.include?(letter)
         duplicate_prompt(letter)
-        false
+        @history
       else
         history << letter
         @history = history
       end
-      @history
     end
 
     def check_game
@@ -57,9 +53,8 @@ module FemisHangman
     end
 
     def show_word
-      word = @word.split('')
       output = ''
-      word.each do |letter|
+      @word.split('').each do |letter|
         if @history.include?(letter)
           output << "#{letter} "
         else
@@ -70,13 +65,10 @@ module FemisHangman
     end
 
     def won?
-      word = @word.split('')
       length = 0
-      word.each {|val| length += 1 if @history.include?(val)}
-      if length == word.size
-        true
-      else
-        false
+      @word.split('').each {|val| length += 1 if @history.include?(val)}
+      if length == word.size then true
+      else false
       end
     end
 
@@ -105,10 +97,10 @@ module FemisHangman
     end
 
     def game_history
-      output = ''
       if @history.empty?
-        ''
+        'NO LETTER YET'
       else
+        output = ''
         @history.each {|letter| output << "#{letter} "}
       end
       output
