@@ -1,0 +1,26 @@
+--- !ruby/object:FemisHangman::Game
+word: fin-de-siecle
+history: []
+turns: 10
+feedback: 2
+status: quit
+--- !ruby/object:FemisHangman::Game
+word: fin-de-siecle
+history:
+- e
+- r
+- n
+- s
+- d
+- y
+turns: 7
+feedback: 2
+status: quit
+--- !ruby/object:FemisHangman::Game
+word: delegation
+history:
+- f
+- q
+turns: 7
+feedback: 2
+status: quit

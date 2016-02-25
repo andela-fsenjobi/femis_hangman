@@ -1,6 +1,6 @@
 module FemisHangman
   class Router
-    include Message
+    include(Message)
     attr_accessor :status, :difficulty, :feedback, :game
     def initialize
       @status = 'begin'
@@ -147,7 +147,7 @@ module FemisHangman
         process(gets.chomp!)
       end
 
-      repl["% Hangman-0.1.0: "] while @status != 'end'
+      repl["% Hangman-#{Hangman::VERSION}: "] while @status != 'end'
     end
   end
 end
