@@ -37,6 +37,7 @@ module FemisHangman
     def choose_feedback(input)
       if input.to_i < 1 || input.to_i > 2
         invalid_prompt
+        false
       else
         level_prompt
         @feedback = input.to_i
@@ -45,10 +46,10 @@ module FemisHangman
     end
 
     def begin_game(input)
-      @difficulty = input.to_i
-      if @difficulty < 1 || @difficulty > 3
+      if input.to_i < 1 || input.to_i > 3
         invalid_prompt
       else
+        @difficulty = input.to_i
         @status = 'play'
         create_game
       end
