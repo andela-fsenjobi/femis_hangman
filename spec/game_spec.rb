@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe FemisHangman::Word do
+describe FemisHangman::Game do
   context '.new(3, 2)' do
     subject {FemisHangman::Game.new(3, 2)}
     context "Word" do
@@ -104,5 +104,23 @@ describe FemisHangman::Word do
     context "Check if game is lost" do
       it { expect(game.lost?).to be true }
     end
+  end
+
+  it 'Should change the status of a game when lost' do
+    game = FemisHangman::Game.new(2,2)
+    game.game_won
+    expect(game.status).to eq('restart')
+  end
+
+  it 'Should change the status of a game when won' do
+    game = FemisHangman::Game.new(2,2)
+    game.game_lost
+    expect(game.status).to eq('restart')
+  end
+
+  it 'Should change the status of a when quitted' do
+    game = FemisHangman::Game.new(2,2)
+    game.quit_game
+    expect(game.status).to eq('quit')
   end
 end
