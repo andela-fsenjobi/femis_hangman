@@ -4,11 +4,10 @@ require "femis_hangman"
 
 s = FemisHangman::Router.new
 
-
-if ARGV.length > 2
-  session.invalid_prompt
-else
+if ARGV.length == 2
   s.status = 'show'
-  s.show_saved_games
+  s.load_game(ARGV[1])
   s.loop
+else
+  session.invalid_prompt
 end

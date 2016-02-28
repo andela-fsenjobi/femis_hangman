@@ -118,6 +118,10 @@ The word is #{word}
     puts 'Thank you for playing!'
   end
 
+  def invalid_game_prompt
+    puts 'There is no game with such ID'
+  end
+
   def game_instruction_prompt
     puts <<-PUTS
 Press ':h' or 'history' to view the letters you have used

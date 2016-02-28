@@ -103,8 +103,14 @@ module FemisHangman
       game_id = 0
       YAML.load_stream(File.open('./saved_games.yaml', 'r')).each do |game|
         game_id += 1
-        @game = game
+        resume_game(game) if game_id == input.to_i
+        return
       end
+      invalid_game_prompt
+    end
+
+    def resume_game(game)
+      @game = game
       @status = 'play'
       @game.status = 'play'
       @game.check_game
