@@ -3,7 +3,7 @@ require 'spec_helper'
 describe FemisHangman::Router do
   context '.new' do
     before :each do
-      subject {FemisHangman::Router.new}
+      subject {FemisHangman::Router.new {}}
     end
     context "FemisHangman::Router" do
       it { expect(subject).to be_instance_of FemisHangman::Router }
@@ -79,5 +79,35 @@ describe FemisHangman::Router do
       subject.restart_game('quit')
       expect(subject.status).to eq('quit')
     end
+
+    it {should respond_to(:welcome_prompt)}
+    it {should respond_to(:invalid_prompt)}
+    it {should respond_to(:load_prompt)}
+    it {should respond_to(:begin_prompt)}
+
+    it {should respond_to(:size_prompt)}
+    it {should respond_to(:instructions_prompt)}
+    it {should respond_to(:save_prompt)}
+    it {should respond_to(:lost_prompt)}
+
+    it {should respond_to(:won_prompt)}
+    it {should respond_to(:lost_gui)}
+    it {should respond_to(:won_gui)}
+    it {should respond_to(:level_prompt)}
+
+    it {should respond_to(:feedback_prompt)}
+    it {should respond_to(:replay_prompt)}
+    it {should respond_to(:empty_prompt)}
+    it {should respond_to(:duplicate_prompt)}
+
+    it {should respond_to(:turns_prompt)}
+    it {should respond_to(:print_text)}
+    it {should respond_to(:thanks_prompt)}
+    it {should respond_to(:game_instruction_prompt)}
   end
+  # context 'print out messages' do
+  #   it "should Print out a welcome message" do
+  #     expect(subject.welcome_prompt).to output('Welcome to Hangman. Guess right or get hanged!').to_stdout
+  #   end
+  # end
 end

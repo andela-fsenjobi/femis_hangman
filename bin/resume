@@ -10,4 +10,5 @@ if ARGV.length > 2
 else
   s.status = 'show'
   s.show_saved_games
+  s.loop
 end
