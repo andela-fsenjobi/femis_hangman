@@ -9,5 +9,7 @@ if ARGV.length == 2
   s.load_game(ARGV[1])
   s.loop
 else
-  session.invalid_prompt
+  s.invalid_prompt
+  s.help_prompt
+  s.load_prompt
 end
