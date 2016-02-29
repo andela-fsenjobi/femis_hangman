@@ -13,7 +13,7 @@ module FemisHangman
       elsif @status == 'play' then play_game(input)
       elsif @status == 'finish' then restart_game(input)
       elsif @status == 'load' then load_game(input)
-      elsif @status == 'quit' || 'save' then quit_game(input)
+      elsif @status == 'quit' then quit_game(input)
       else welcome(input)
       end
     end
@@ -82,31 +82,39 @@ module FemisHangman
       end
     end
 
-    def save_game
-      File.open('./saved_games.yaml', 'a'){|f| f.write(YAML.dump(@game))}
+    def save_game(file='./saved_games.yaml')
+      File.open(file, 'a'){|f| f.write(YAML.dump(@game))}
       @status = 'quit'
     end
 
     def show_saved_games
       @status = 'load'
       load_prompt
-      i = 0
+      counter = 0
       YAML.load_stream(File.open('./saved_games.yaml', 'r')).each do |game|
-        print "#{i += 1}: "
-        print game.show_word
-        print "(#{game.turns} turns left)"
-        print "\n"
+        counter += 1
+        saved_games_list(counter, game)
       end
+    end
+
+    def saved_games_list(counter, game)
+      print "#{counter}: "
+      print game.show_word
+      print "(#{game.turns} turns left)"
+      print "\n"
     end
 
     def load_game(input)
       game_id = 0
       YAML.load_stream(File.open('./saved_games.yaml', 'r')).each do |game|
         game_id += 1
-        resume_game(game) if game_id == input.to_i
-        return
+        if game_id == input.to_i
+          resume_game(game)
+          return
+        end
       end
       invalid_game_prompt
+      show_saved_games
     end
 
     def resume_game(game)
@@ -117,9 +125,8 @@ module FemisHangman
     end
 
     def quit_game(input=nil)
-      if input.nil? then @status = 'quit'
+      if input.nil? || input == 'q' || 'quit' then @status = 'quit'
       elsif input == 's' || 'save' then save_game
-      elsif input == 'q' || 'quit' then quit_game
       else invalid_prompt
       end
     end
@@ -127,7 +134,7 @@ module FemisHangman
     def loop
       repl = lambda do |prompt|
         print prompt
-        process(gets.chomp!)
+        process(STDIN.gets.chomp)
       end
       repl['% Hangman-0.1.0: '] while @status != 'quit'
       thanks_prompt
