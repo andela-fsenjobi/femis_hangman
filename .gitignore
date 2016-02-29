@@ -11,3 +11,4 @@
 .idea*
 /.idea*
 .xml
+/spec/message_spec.rb

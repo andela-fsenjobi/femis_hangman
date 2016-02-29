@@ -19,7 +19,6 @@ module Message
     puts <<-PUTS
 ########################################################
 
-This gem is an implementation of the hangman game.
 Attempt to guess the missing letters correctly.
 You have a limited number of tries.
 If you use up all your chances without getting
@@ -27,7 +26,7 @@ the word correctly, you will be hanged.
 
 To play a new game: Press 'p' or 'play'
 To load a saved game: Press 'l' or 'load'
-To show insructions: Press 'i' or 'instructions'
+To show instructions: Press 'i' or 'instructions'
 To quit Hangman: Press 'q' or 'quit'
 
 ########################################################
@@ -116,6 +115,18 @@ The word is #{word}
 
   def thanks_prompt
     puts 'Thank you for playing!'
+  end
+
+  def invalid_game_prompt
+    puts 'There is no game with such ID'
+  end
+
+  def help_prompt
+    <<-HELP
+Press:
+hangman - to start the hangman game
+resume `game id` - to resume saved game
+    HELP
   end
 
   def game_instruction_prompt
