@@ -21,7 +21,7 @@ module FemisHangman
 
     def commands(input)
       case input
-        when ':h', 'history' then print_text("You have used: #{game_history}")
+        when ':h', 'history' then puts ("You have used: #{game_history}")
         when ':q', 'quit' then quit_game
         else invalid_prompt
       end

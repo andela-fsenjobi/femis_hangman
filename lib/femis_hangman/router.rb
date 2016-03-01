@@ -23,20 +23,20 @@ module FemisHangman
         when 'p', 'play' then start_game
         when 'q', 'quit' then quit_game
         when 'l', 'load' then show_saved_games
-        when 'i', 'instructions' then instructions_prompt
-        else invalid_prompt
+        when 'i', 'instructions' then puts instructions_prompt
+        else puts invalid_prompt
       end
     end
 
     def start_game
       @status = 'feedback'
-      welcome_prompt
-      feedback_prompt
+      puts welcome_prompt
+      puts feedback_prompt
     end
 
     def choose_feedback(input)
       if input.to_i < 1 || input.to_i > 2
-        invalid_prompt
+        puts invalid_prompt
         false
       else
         level_prompt
@@ -47,7 +47,7 @@ module FemisHangman
 
     def begin_game(input)
       if input.to_i < 1 || input.to_i > 3
-        invalid_prompt
+        puts invalid_prompt
       else
         @difficulty = input.to_i
         @status = 'play'
@@ -56,12 +56,12 @@ module FemisHangman
     end
 
     def create_game
-      begin_prompt
+      puts begin_prompt
       @game = Game.new(@difficulty, @feedback)
-      size_prompt(@game.word.size)
-      turns_prompt(@game.turns)
-      game_instruction_prompt
-      print_text(@game.show_word)
+      puts size_prompt(@game.word.size)
+      puts turns_prompt(@game.turns)
+      puts game_instruction_prompt
+      puts (@game.show_word)
     end
 
     def play_game(input)
@@ -75,7 +75,7 @@ module FemisHangman
 
     def restart_game(input)
       if input == 'r' || input == 'restart'
-        level_prompt
+        puts level_prompt
         @status = 'start'
       elsif input == 'q' || input == 'quit' then quit_game
       else invalid_prompt
@@ -89,32 +89,28 @@ module FemisHangman
 
     def show_saved_games
       @status = 'load'
-      load_prompt
+      puts load_prompt
       counter = 0
       YAML.load_stream(File.open('./saved_games.yaml', 'r')).each do |game|
         counter += 1
-        saved_games_list(counter, game)
+        puts saved_games_list(counter, game)
       end
     end
 
     def saved_games_list(counter, game)
-      print "#{counter}: "
-      print game.show_word
-      print "(#{game.turns} turns left)"
-      print "\n"
+      "#{counter}: " << game.show_word << "(#{game.turns} turns left)"
     end
 
     def load_game(input)
       game_id = 0
       YAML.load_stream(File.open('./saved_games.yaml', 'r')).each do |game|
         game_id += 1
-        if game_id == input.to_i
-          resume_game(game)
-          return
+        if game_id == input.to_i then resume_game(game)
+        else
+          puts invalid_game_prompt
+          show_saved_games
         end
       end
-      invalid_game_prompt
-      show_saved_games
     end
 
     def resume_game(game)
@@ -127,17 +123,17 @@ module FemisHangman
     def quit_game(input=nil)
       if input.nil? || input == 'q' || 'quit' then @status = 'quit'
       elsif input == 's' || 'save' then save_game
-      else invalid_prompt
+      else puts invalid_prompt
       end
     end
 
     def loop
       repl = lambda do |prompt|
         print prompt
-        process(STDIN.gets.chomp)
+        process(STDIN.gets.chomp.downcase)
       end
       repl['% Hangman-0.1.0: '] while @status != 'quit'
-      thanks_prompt
+      puts thanks_prompt
     end
   end
 end
