@@ -39,7 +39,7 @@ module FemisHangman
         puts invalid_prompt
         false
       else
-        level_prompt
+        puts level_prompt
         @feedback = input.to_i
         @status = 'start'
       end
