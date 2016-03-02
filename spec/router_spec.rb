@@ -11,6 +11,123 @@ describe FemisHangman::Router do
     it { expect(subject.status).to eq('begin') }
   end
 
+  context 'when the router receives an input in the begin state' do
+    it 'should redirect to welcome if the user just started' do
+      allow(subject).to receive(:puts).and_return(nil)
+      allow(subject.process('p')).to receive(:welcome)
+      expect(subject.status).to eq('feedback')
+    end
+
+    it 'should redirect to show_saved_games if the user wants to see saved games' do
+      allow(subject).to receive(:puts).and_return(nil)
+      allow(subject.process('l')).to receive(:load_game)
+      expect(subject.status).to eq('load')
+    end
+
+    it 'should redirect leave the status unchanged if the user views instructions' do
+      allow(subject).to receive(:puts).and_return(nil)
+      allow(subject.process('i')).to receive(:welcome)
+      expect(subject.status).to eq('begin')
+    end
+
+    it 'should redirect to quit if user quits when game starts' do
+      allow(subject).to receive(:puts).and_return(nil)
+      expect(subject.welcome('q')).to eq('quit')
+    end
+  end
+
+  context 'when the router receives an input in the feedback state' do
+    it 'should redirect to choose difficulty level' do
+      subject.status = 'feedback'
+      allow(subject).to receive(:puts).and_return(nil)
+      allow(subject.process('1')).to receive(:choose_feedback)
+      expect(subject.status).to eq('start')
+    end
+
+    it 'should retain the feedback status' do
+      subject.status = 'feedback'
+      allow(subject).to receive(:puts).and_return(nil)
+      allow(subject.process('l')).to receive(:choose_feedback)
+      expect(subject.status).to eq('feedback')
+    end
+  end
+
+  context 'when the router receives an input in the start state' do
+    it 'should redirect to play' do
+      subject.status = 'start'
+      allow(subject).to receive(:puts).and_return(nil)
+      allow(subject.process('2')).to receive(:begin_game)
+      expect(subject.status).to eq('play')
+    end
+
+    it 'should retain the start status' do
+      subject.status = 'start'
+      allow(subject).to receive(:puts).and_return(nil)
+      allow(subject.process('l')).to receive(:begin_game)
+      expect(subject.status).to eq('start')
+    end
+  end
+
+  context 'when the router receives an input in the play state' do
+    it 'should remain in play' do
+      subject.status = 'start'
+      allow(subject).to receive(:puts).and_return(nil)
+      allow(subject.process('2')).to receive(:play)
+      expect(subject.status).to eq('play')
+    end
+  end
+
+  context 'when the router receives a valid input in the restart state' do
+    it 'should take the game back to start mode' do
+      subject.status = 'finish'
+      allow(subject).to receive(:puts).and_return(nil)
+      allow(subject.process('r')).to receive(:finish_game)
+      expect(subject.status).to eq('start')
+    end
+
+    it 'should take the game to quit mode' do
+      subject.status = 'finish'
+      allow(subject).to receive(:puts).and_return(nil)
+      allow(subject.process('q')).to receive(:finish_game)
+      expect(subject.status).to eq('quit')
+    end
+  end
+
+  context 'when the router receives an invalid input in the restart state' do
+    it 'should take the game back to start mode' do
+      subject.status = 'finish'
+      allow(subject).to receive(:puts).and_return(nil)
+      allow(subject.process('j')).to receive(:finish_game)
+      expect(subject.status).to eq('finish')
+    end
+  end
+
+  context 'when the router receives an input in the begin state' do
+    it 'should prompt user for feedback' do
+      allow(subject).to receive(:puts).and_return(nil)
+      allow(subject.welcome('p')).to receive(:start_game)
+      expect(subject.status).to eq('feedback')
+    end
+
+    it 'should prompt user to select a saved game' do
+      allow(subject).to receive(:puts).and_return(nil)
+      allow(subject.welcome('l')).to receive(:load_game)
+      expect(subject.status).to eq('load')
+    end
+
+    it 'should show user the game instructions' do
+      allow(subject).to receive(:puts).and_return(nil)
+      allow(subject.welcome('i')).to receive(:instructions_prompt)
+      expect(subject.status).to eq('begin')
+    end
+
+    it 'should quit the game' do
+      allow(subject).to receive(:puts).and_return(nil)
+      allow(subject.welcome('q')).to receive(:quit_game)
+      expect(subject.status).to eq('quit')
+    end
+  end
+
   context 'When the play option is selected' do
     it "Sets status of the router to 'feedback'" do
       subject.start_game
@@ -138,6 +255,14 @@ describe FemisHangman::Router do
     end
   end
 
+  context 'when router is in the restart mode and an invalid input is supplied' do
+    it 'Should change the status of the game to restart' do
+      subject.status = 'finish'
+      subject.restart_game('zz')
+      expect(subject.status).to eq('finish')
+    end
+  end
+
   context 'when a list of saved games is requested' do
     it 'should change the staus of the game to load' do
       subject.show_saved_games
@@ -155,6 +280,12 @@ describe FemisHangman::Router do
   context 'when the quit option is selected' do
     it 'should quit the game' do
       subject.quit_game
+      expect(subject.status).to eq('quit')
+    end
+
+    it 'should save then quit the game' do
+      subject.quit_game('s')
+      allow(subject).to receive(:save_game){ './save_test_games.yaml' }
       expect(subject.status).to eq('quit')
     end
   end
