@@ -1,10 +1,11 @@
 # Hangman
 
-[![Code Climate](https://codeclimate.com/github/andela-fsenjobi/femis_hangman/badges/gpa.svg)](https://codeclimate.com/github/andela-fsenjobi/femis_hangman)[![Coverage Status](https://coveralls.io/repos/github/andela-fsenjobi/femis_hangman/badge.svg?branch=master)](https://coveralls.io/github/andela-fsenjobi/femis_hangman?branch=master)
+[![Code Climate](https://codeclimate.com/github/andela-fsenjobi/femis_hangman/badges/gpa.svg)](https://codeclimate.com/github/andela-fsenjobi/femis_hangman) [![Coverage Status](https://coveralls.io/repos/github/andela-fsenjobi/femis_hangman/badge.svg?branch=master)](https://coveralls.io/github/andela-fsenjobi/femis_hangman?branch=master)
 
 Hangman is a game of guesses. A word is randomly selected from a predefined list and you will be required to guess what it is. You will be told how long the word is and how many chances you have got. You have to guess right or get hanged!
 
 The game has three levels:
+
 1) Beginner       |  4-8 words          |  8 turns
 
 2) Intermediate   |  9-12 words         |  9 turns
@@ -30,7 +31,7 @@ Or install it yourself as:
     $ gem install femis_hangman
 
 ## Usage
-Download this [Dictionary](https://drive.google.com/open?id=0B1C3woZnW_mZQjZpUWlpNEZlTk0) or any dictionary of your choise and save it as 'dictionary.txt' in the folder yu will be playing from
+Download this [Dictionary](https://drive.google.com/open?id=0B1C3woZnW_mZQjZpUWlpNEZlTk0) or any dictionary of your choise and save it as 'dictionary.txt' in the folder you will be playing from
 
 ###From IRB
 After installing the gem hangman, run `require 'hangman'` from your IRB console. The game instruction is then displayed
@@ -41,12 +42,16 @@ Run femis_hangman
 ###Game Instructions
 
 To play a new game: Press 'p' or 'play'
+
 To load a saved game: Press 'l' or 'load'
+
 To show instructions: Press 'i' or 'instructions'
+
 To quit Hangman: Press 'q' or 'quit'
 
 ####While playing,
 You can quit with ':q' or 'quit'. (You can save before exiting)
+
 Display used letters with ':h' or 'history'
 
 ####Loading a saved game
