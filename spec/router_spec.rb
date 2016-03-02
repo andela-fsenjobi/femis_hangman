@@ -3,6 +3,7 @@ require 'spec_helper'
 describe FemisHangman::Router do
   before :each do
     subject {FemisHangman::Router.new {}}
+    allow(subject).to receive(:puts).and_return(nil)
   end
 
   context 'When the game starts' do

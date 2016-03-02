@@ -15,15 +15,15 @@ module FemisHangman
     def control(input)
       if input.size > 1 then commands(input)
       elsif input.size == 1 then play(input)
-      else invalid_prompt
+      else puts invalid_prompt
       end
     end
 
     def commands(input)
       case input
-        when ':h', 'history' then print_text("You have used: #{game_history}")
+        when ':h', 'history' then puts ("You have used: #{game_history}")
         when ':q', 'quit' then quit_game
-        else invalid_prompt
+        else puts invalid_prompt
       end
     end
 
@@ -35,7 +35,7 @@ module FemisHangman
 
     def include_letter(letter, history)
       if history.include?(letter)
-        duplicate_prompt(letter)
+        puts duplicate_prompt(letter)
         @history
       else
         history << letter
@@ -47,7 +47,7 @@ module FemisHangman
       if won? then game_won
       elsif lost? then game_lost
       else
-        turns_prompt(@turns)
+        puts turns_prompt(@turns)
         puts show_word
       end
     end
@@ -78,21 +78,21 @@ module FemisHangman
 
     def game_won
       if @feedback == 2
-        won_gui(@word)
+        puts won_gui(@word)
       else
-        won_prompt(@word)
+        puts won_prompt(@word)
       end
-      replay_prompt
+      puts replay_prompt
       @status = 'restart'
     end
 
     def game_lost
       if @feedback == 2
-        lost_gui(@word)
+        puts lost_gui(@word)
       else
-        lost_prompt(@word)
+        puts lost_prompt(@word)
       end
-      replay_prompt
+      puts replay_prompt
       @status = 'restart'
     end
 
@@ -108,7 +108,7 @@ module FemisHangman
 
     def quit_game
       @status = 'quit'
-      save_prompt
+      puts save_prompt
     end
   end
 end

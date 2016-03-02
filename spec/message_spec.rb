@@ -1,131 +1,80 @@
 require 'spec_helper'
-#
-# describe FemisHangman::Router do
-#   subject(:message){ FemisHangman::Router.new { include(Message)} }
-#
-#
-#
-#
-#   def size_prompt(size)
-#     puts "Your word is a #{size} letter word"
-#   end
-#
-#   def load_prompt
-#     puts "Choose the game you want to resume from the list below\nPress the respective number"
-#   end
-#
-#   def begin_prompt
-#     puts "Let the games begin\n\n"
-#   end
-#
-#   def instructions_prompt
-#     puts <<-PUTS
-# ########################################################
-#
-# This gem is an implementation of the hangman game.
-# Attempt to guess the missing letters correctly.
-# You have a limited number of tries.
-# If you use up all your chances without getting
-# the word correctly, you will be hanged.
-#
-# To play a new game: Press 'p' or 'play'
-# To load a saved game: Press 'l' or 'load'
-# To show insructions: Press 'i' or 'instructions'
-# To quit Hangman: Press 'q' or 'quit'
-#
-# ########################################################
-#     PUTS
-#   end
-#
-#   def save_prompt
-#     puts "Press 's' or 'save' to save before quiting\nPress 'q' to quit anyway"
-#   end
-#
-#   def lost_prompt(word)
-#     puts "You are dead!\nThe word is #{word}"
-#     puts "Press any key to continue or 'q' to quit"
-#   end
-#
-#   def won_prompt(word)
-#     puts "You win!\nThe word is #{word}"
-#   end
-#
-#   def lost_gui(word)
-#     puts <<-PUTS
-# -+----------+-
-#  |          |
-#  |          o
-#  |         /|\\
-#  |         / \\
-#  |
-#  |
-#  |
-# You are dead!
-# ################
-# The word is #{word}
-# ################
-#     PUTS
-#   end
-#
-#   def won_gui(word)
-#     puts <<-PUTS
-# -+----------+-
-#  |          |
-#  |
-#  |
-#  |           o/
-#  |          /|
-#  |         \\/ \\
-#  |            /
-# You are free to go
-# ################
-# The word is #{word}
-# ################
-#     PUTS
-#   end
-#
-#   def level_prompt
-#     puts "Choose your difficulty level\n\n1: Beginner\n2: Intermediate\n3: Advanced\n"
-#   end
-#
-#   def feedback_prompt
-#     puts "Choose your feedback type\n\n1: Boring\n2: Funny\n"
-#   end
-#
-#
-#   def replay_prompt
-#     puts "Press 'r' or 'restart' to play again\nPress 'q' to quit\n"
-#   end
-#
-#   def invalid_prompt
-#     puts 'Invalid entry!'
-#   end
-#
-#   def empty_prompt
-#     puts "You haven't used any letters yet."
-#   end
-#
-#   def duplicate_prompt(letter)
-#     puts "You have used the letter #{letter} already"
-#   end
-#
-#   def turns_prompt(turns)
-#     puts "You have #{turns} turns left"
-#   end
-#
-#   def print_text(text)
-#     puts "#{text}"
-#   end
-#
-#   def thanks_prompt
-#     puts 'Thank you for playing!'
-#   end
-#
-#   def game_instruction_prompt
-#     puts <<-PUTS
-# Press ':h' or 'history' to view the letters you have used
-# Press ':q' or 'quit' to quit (you can save before quiting)
-#
-#     PUTS
-#   end
-# end
+
+describe Message do
+  subject { FemisHangman::Router.new { include Message } }
+  it 'should include the length passed' do
+    expect(subject.size_prompt(12)).to include('12')
+  end
+
+  it 'should print out the size of the word' do
+    expect(subject.load_prompt).to include('Press the respective number')
+  end
+
+  it 'should supply the prompt to begin the game' do
+    expect(subject.begin_prompt).to include('games begin')
+  end
+
+  it 'should supply the prompt to begin the game' do
+    expect(subject.instructions_prompt).to include("Press 'p' or 'play'")
+  end
+
+  it 'should inform the user to save or quit' do
+    expect(subject.save_prompt).to include("Press 's' or 'save'")
+  end
+
+  it 'should inform the user that he is dead' do
+    expect(subject.lost_prompt('information')).to include("You are dead!")
+  end
+
+  it 'should include the word' do
+    expect(subject.won_prompt('information')).to include('information')
+  end
+
+  it 'should inform the the game has been lost' do
+    expect(subject.lost_gui('information')).to include('You are dead!')
+  end
+
+  it 'should inform the user he is free to go' do
+    expect(subject.won_gui('information')).to include('You are free')
+  end
+
+  it 'should inform the user to choose a difficulty level' do
+    expect(subject.level_prompt).to include('difficulty level')
+  end
+
+  it 'should inform the user to choose a feedback type' do
+    expect(subject.feedback_prompt).to include('feedback type')
+  end
+
+  it 'should inform the user to restart or quit' do
+    expect(subject.replay_prompt).to include("Press 'r' or 'restart'")
+  end
+
+  it 'should inform the user that the entry is invalid' do
+    expect(subject.invalid_prompt).to eq('Invalid entry!')
+  end
+
+  it 'should inform the user his history is empty' do
+    expect(subject.empty_prompt).to include("haven't used any")
+  end
+
+  it 'should inform the user the letter has already been used' do
+    expect(subject.duplicate_prompt('a')).to include('a already')
+  end
+
+  it 'should inform the user the number of turns he has left' do
+    expect(subject.turns_prompt(3)).to include('3 turns left')
+  end
+
+  it 'should inform the user the letter has already been used' do
+    expect(subject.thanks_prompt).to eq('Thank you for playing!')
+  end
+
+  it 'should inform the user the letter has already been used' do
+    expect(subject.game_instruction_prompt).to include("Press ':h' or 'history'")
+  end
+
+  it 'should inform the user the letter has already been used' do
+    expect(subject.invalid_game_prompt).to include("no game with such")
+  end
+end

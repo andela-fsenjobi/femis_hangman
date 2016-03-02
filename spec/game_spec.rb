@@ -3,8 +3,9 @@ require 'spec_helper'
 describe FemisHangman::Game do
   context "when creating a game with difficulty level 'advanced' and feedback mode 'funny'" do
     subject {FemisHangman::Game.new(3, 2)}
-    context "when displaying the history of the game" do
-      it 'should have an empty history' do
+    context 'when displaying the history of the game' do
+
+      it 'a new game should have an empty history' do
         expect(subject.history).to eq([])
       end
 
@@ -41,6 +42,7 @@ describe FemisHangman::Game do
       game.history = ["a", "b", "c"]
       subject {game.include_letter("a", ["a", "b", "c"])}
       it 'should return the exact array is history already contains the letter' do
+        allow(game).to receive(:puts).and_return(nil)
         expect(subject).to eq(["a", "b", "c"])
       end
     end
@@ -50,6 +52,7 @@ describe FemisHangman::Game do
       game.history = ["b", "c"]
       subject {game.include_letter("a", game.history)}
       it 'should return an array that now contains the included letter' do
+        allow(game).to receive(:puts).and_return(nil)
         expect(subject).to eq(["b", "c", "a"])
       end
     end
@@ -59,6 +62,7 @@ describe FemisHangman::Game do
       game.history = ['a', 'b', 'c']
       game.word = 'elenor'
       it 'hides the letter if it is not included in player history' do
+        allow(game).to receive(:puts).and_return(nil)
         expect(game.show_word).to eq('_ _ _ _ _ _ ')
       end
     end
@@ -68,6 +72,7 @@ describe FemisHangman::Game do
       game.history = ['a', 'b', 'c']
       game.word = 'abacus'
       it 'should show only words contained in hte player history' do
+        allow(game).to receive(:puts).and_return(nil)
         expect(game.show_word).to eq('a b a c _ _ ')
       end
 
@@ -85,10 +90,12 @@ describe FemisHangman::Game do
       game.history = ['a', 'b', 'c', 'u', 'j', 's']
       game.word = 'abacus'
       it 'should print all words contained in the player history' do
+        allow(game).to receive(:puts).and_return(nil)
         expect(game.show_word).to eq('a b a c u s ')
       end
 
       it 'should display all letters in the history' do
+        allow(game).to receive(:puts).and_return(nil)
         expect(game.game_history).to eq('a b c u j s ')
       end
 
@@ -115,18 +122,21 @@ describe FemisHangman::Game do
     it 'Should change the status of a game when lost' do
       game = FemisHangman::Game.new(2,2)
       game.game_won
+      allow(game).to receive(:puts).and_return(nil)
       expect(game.status).to eq('restart')
     end
 
     it 'Should change the status of a game when won' do
       game = FemisHangman::Game.new(2,2)
       game.game_lost
+      allow(game).to receive(:puts).and_return(nil)
       expect(game.status).to eq('restart')
     end
 
     it 'Should change the status of a when quitted' do
       game = FemisHangman::Game.new(2,2)
       game.quit_game
+      allow(game).to receive(:puts).and_return(nil)
       expect(game.status).to eq('quit')
     end
   end
