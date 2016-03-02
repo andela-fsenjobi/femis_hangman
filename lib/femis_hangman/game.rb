@@ -97,13 +97,11 @@ module FemisHangman
     end
 
     def game_history
-      if @history.empty?
-        'NO LETTER YET'
-      else
+      unless @history.empty?
         output = ''
         @history.each {|letter| output << "#{letter} "}
+        output
       end
-      output
     end
 
     def quit_game

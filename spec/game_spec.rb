@@ -85,6 +85,37 @@ describe FemisHangman::Game do
       end
     end
 
+    context 'when the game class receives an input' do
+      game = FemisHangman::Game.new(2,2)
+      it 'should process inputs more than one character as commands' do
+        allow(game).to receive(:command).and_return(nil)
+        allow(game).to receive(:puts).and_return(nil)
+        expect(game.control(':h')).to be nil
+      end
+
+      it 'should process inputs of single character as guesses' do
+        allow(game).to receive(:play).and_return(nil)
+        allow(game).to receive(:puts).and_return(nil)
+        expect(game.control('h')).to be nil
+      end
+    end
+
+    context 'when the game class receives an input as command' do
+      game = FemisHangman::Game.new(2,2)
+      it 'should process include letter in game history' do
+        allow(game).to receive(:puts).and_return(nil)
+        expect(game.commands(':h')).to be nil
+      end
+    end
+
+    context 'when the game class receives an input as guess' do
+      game = FemisHangman::Game.new(2,2)
+      it 'should process include letter in game history' do
+        allow(game).to receive(:puts).and_return(nil)
+        expect(game.play('h')).to be nil
+      end
+    end
+
     context 'when printing current game status' do
       game = FemisHangman::Game.new(2,2)
       game.history = ['a', 'b', 'c', 'u', 'j', 's']
@@ -119,15 +150,29 @@ describe FemisHangman::Game do
       end
     end
 
-    it 'Should change the status of a game when lost' do
+    it 'Should change the status of a game when lost for funny mode' do
       game = FemisHangman::Game.new(2,2)
       game.game_won
       allow(game).to receive(:puts).and_return(nil)
       expect(game.status).to eq('restart')
     end
 
-    it 'Should change the status of a game when won' do
+    it 'Should change the status of a game when won for funny mode' do
       game = FemisHangman::Game.new(2,2)
+      game.game_lost
+      allow(game).to receive(:puts).and_return(nil)
+      expect(game.status).to eq('restart')
+    end
+
+    it 'Should change the status of a game when lost for boring mode' do
+      game = FemisHangman::Game.new(2,1)
+      game.game_won
+      allow(game).to receive(:puts).and_return(nil)
+      expect(game.status).to eq('restart')
+    end
+
+    it 'Should change the status of a game when won for boring mode' do
+      game = FemisHangman::Game.new(2,1)
       game.game_lost
       allow(game).to receive(:puts).and_return(nil)
       expect(game.status).to eq('restart')

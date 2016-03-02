@@ -29,9 +29,9 @@ module FemisHangman
     end
 
     def start_game
-      @status = 'feedback'
       puts welcome_prompt
       puts feedback_prompt
+      @status = 'feedback'
     end
 
     def choose_feedback(input)
