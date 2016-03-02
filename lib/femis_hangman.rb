@@ -1,4 +1,4 @@
-require 'YAML'
+require 'yaml'
 require 'femis_hangman/version'
 require 'femis_hangman/message'
 require 'femis_hangman/word'
