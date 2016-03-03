@@ -67,7 +67,7 @@ version number in `version.rb`, and then run `bundle exec rake release`, which w
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/andela-fsenjobi/femi_hangman. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/andela-fsenjobi/femis_hangman. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
