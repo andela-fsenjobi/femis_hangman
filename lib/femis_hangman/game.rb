@@ -1,61 +1,30 @@
 module FemisHangman
   class Game
-    include(Message)
-    attr_accessor :turns, :history, :word, :feedback, :status
+    include Message
+    attr_accessor :turns, :used_letters, :word, :feedback, :status
 
-    def initialize(difficulty, feedback)
-      word = Word.new
-      @word = word.generate(difficulty)
-      @history = []
+    def initialize(difficulty, feedback, status)
+      @word = Word.new.generate(difficulty)
+      @used_letters = []
       @turns = 7 + difficulty
       @feedback = feedback
-      @status = 'play'
-    end
-
-    def control(input)
-      if input.size > 1 then commands(input)
-      elsif input.size == 1 then play(input)
-      else puts invalid_prompt
-      end
-    end
-
-    def commands(input)
-      case input
-        when ':h', 'history' then puts ("You have used: #{game_history}")
-        when ':q', 'quit' then quit_game
-        else puts invalid_prompt
-      end
+      @status = status
+      @status.value = 'play'
     end
 
     def play(input)
-      include_letter(input, @history)
       @turns -= 1 unless @word.include?(input)
-      check_game
+      include(input)
     end
 
-    def include_letter(letter, history)
-      if history.include?(letter)
-        puts duplicate_prompt(letter)
-        @history
-      else
-        history << letter
-        @history = history
-      end
+    def include(letter)
+      @used_letters << letter unless @used_letters.include?(letter)
     end
 
-    def check_game
-      if won? then game_won
-      elsif lost? then game_lost
-      else
-        puts turns_prompt(@turns)
-        puts show_word
-      end
-    end
-
-    def show_word
+    def show
       output = ''
       @word.split('').each do |letter|
-        if @history.include?(letter)
+        if @used_letters.include?(letter)
           output << "#{letter} "
         else
           output << '_ '
@@ -66,47 +35,26 @@ module FemisHangman
 
     def won?
       length = 0
-      @word.split('').each {|val| length += 1 if @history.include?(val)}
-      if length == word.size then true
-      else false
+      @word.split('').each do |val|
+        length += 1 if @used_letters.include?(val)
       end
+      return true if length == @word.size
+      false
     end
 
     def lost?
       @turns == 0
     end
 
-    def game_won
-      if @feedback == 2
-        puts won_gui(@word)
-      else
-        puts won_prompt(@word)
-      end
-      puts replay_prompt
-      @status = 'restart'
+    def history
+      output = ''
+      @used_letters.each {|letter| output << "#{letter} "}
+      output
     end
 
-    def game_lost
-      if @feedback == 2
-        puts lost_gui(@word)
-      else
-        puts lost_prompt(@word)
-      end
-      puts replay_prompt
-      @status = 'restart'
-    end
-
-    def game_history
-      unless @history.empty?
-        output = ''
-        @history.each {|letter| output << "#{letter} "}
-        output
-      end
-    end
-
-    def quit_game
-      @status = 'quit'
-      puts save_prompt
+    def quit
+      @status.value = 'save'
+      save_prompt
     end
   end
 end

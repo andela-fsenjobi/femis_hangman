@@ -1,188 +1,99 @@
 require 'spec_helper'
 
 describe FemisHangman::Game do
-  context "when creating a game with difficulty level 'advanced' and feedback mode 'funny'" do
-    subject {FemisHangman::Game.new(3, 2)}
-    context 'when displaying the history of the game' do
-
-      it 'a new game should have an empty history' do
-        expect(subject.history).to eq([])
-      end
-
-      it 'should have 10 turns by default' do
-        expect(subject.turns).to eq(10)
-      end
-
-      it 'should gave a default game status of play' do
-        expect(subject.status).to eq('play')
-      end
-
-      it 'should have the same feedback as that supplied' do
-        expect(subject.feedback).to eq(2)
-      end
-
-      it 'should have a word length of at least 12' do
-        expect(subject.word.length).to be > 12
-      end
+  let(:status) {FemisHangman::Status.new}
+  subject(:game) {FemisHangman::Game.new(3, 2, status)}
+  context 'when difficulty is 3 and feedback, 2' do
+    it { expect(game.history).to eq('') }
+    it { expect(game.turns).to eq(10) }
+    it { expect(game.status.value).to eq('play') }
+    it { expect(game.feedback).to eq(2) }
+    it { expect(game.word.length).to be > 12 }
   end
 
-    context "when creating a game with difficulty level 'intermediate' and feedback mode 'funny'" do
-      subject {FemisHangman::Game.new(2, 2)}
-      it 'should have a word length of at least 9' do
-        expect(subject.word.length).to be > 8
-      end
+  context 'when difficulty is 2 and feedback, 2' do
+    subject(:game) {FemisHangman::Game.new(2, 2, status)}
+    it { expect(game.history).to eq('') }
+    it { expect(game.turns).to eq(9) }
+    it { expect(game.status.value).to eq('play') }
+    it { expect(game.feedback).to eq(2) }
+    it { expect(game.word.length).to be > 8 }
+    it { expect(game.word.length).to be <= 12 }
+  end
 
-      it 'should have a word length of at most 12' do
-        expect(subject.word.length).to be <= 12
-      end
-    end
+  context 'when difficulty is 1 and feedback, 1' do
+    subject(:game) {FemisHangman::Game.new(1, 1, status)}
+    it { expect(game.history).to eq('') }
+    it { expect(game.turns).to eq(8) }
+    it { expect(game.status.value).to eq('play') }
+    it { expect(game.feedback).to eq(1) }
+    it { expect(game.word.length).to be > 4 }
+    it { expect(game.word.length).to be <= 8 }
+  end
 
-    context 'when including an existing letter into game history' do
-      game = FemisHangman::Game.new(2,2)
-      game.history = ["a", "b", "c"]
-      subject {game.include_letter("a", ["a", "b", "c"])}
-      it 'should return the exact array is history already contains the letter' do
-        allow(game).to receive(:puts).and_return(nil)
-        expect(subject).to eq(["a", "b", "c"])
-      end
-    end
-
-    context 'when including a new letter into game history' do
-      game = FemisHangman::Game.new(2,2)
-      game.history = ["b", "c"]
-      subject {game.include_letter("a", game.history)}
-      it 'should return an array that now contains the included letter' do
-        allow(game).to receive(:puts).and_return(nil)
-        expect(subject).to eq(["b", "c", "a"])
+  describe '#include_letter' do
+    context 'when history contains letter' do
+      it 'should return the history intact' do
+        game.used_letters = ["a", "b", "c"]
+        expect(game.include("a")).to eq(@history)
       end
     end
 
-    context 'when displaying a word during the game' do
-      game = FemisHangman::Game.new(2,2)
-      game.history = ['a', 'b', 'c']
-      game.word = 'elenor'
-      it 'hides the letter if it is not included in player history' do
-        allow(game).to receive(:puts).and_return(nil)
-        expect(game.show_word).to eq('_ _ _ _ _ _ ')
+    context 'when history does not contains letter' do
+      it 'should append to history' do
+        game.used_letters = ["a", "b", "c"]
+        expect(game.include("d")).to eq(["a", "b", "c", "d"])
+      end
+    end
+  end
+
+  describe '#show_word' do
+    context 'when history contains letter' do
+      it 'should show word' do
+        game.used_letters = ["a", "b", "c"]
+        game.word = 'abacus'
+        expect(game.show).to eq('a b a c _ _ ')
       end
     end
 
-    context 'when displaying a word contained in the player history' do
-      game = FemisHangman::Game.new(2,2)
-      game.history = ['a', 'b', 'c']
-      game.word = 'abacus'
-      it 'should show only words contained in hte player history' do
-        allow(game).to receive(:puts).and_return(nil)
-        expect(game.show_word).to eq('a b a c _ _ ')
+    context 'when history contains letter' do
+      it 'should show word' do
+        game.used_letters = ["a", "b", "c"]
+        game.word = 'elenor'
+        expect(game.show).to eq('_ _ _ _ _ _ ')
       end
+    end
+  end
 
-      it 'should not have been won' do
+  describe '#won?' do
+    context 'when game has not ended' do
+      it { expect(game.won?).to be false }
+      it { expect(game.lost?).to be false }
+    end
+
+    context 'when history contains all letters' do
+      it 'should show game won' do
+        game.turns = 0
         expect(game.won?).to be false
-      end
-
-      it 'should not have been lost' do
-        expect(game.lost?).to be false
+        expect(game.lost?).to be true
       end
     end
 
-    context 'when the game class receives an input' do
-      game = FemisHangman::Game.new(2,2)
-      it 'should process inputs more than one character as commands' do
-        allow(game).to receive(:command).and_return(nil)
-        allow(game).to receive(:puts).and_return(nil)
-        expect(game.control(':h')).to be nil
-      end
-
-      it 'should process inputs of single character as guesses' do
-        allow(game).to receive(:play).and_return(nil)
-        allow(game).to receive(:puts).and_return(nil)
-        expect(game.control('h')).to be nil
-      end
-    end
-
-    context 'when the game class receives an input as command' do
-      game = FemisHangman::Game.new(2,2)
-      it 'should process include letter in game history' do
-        allow(game).to receive(:puts).and_return(nil)
-        expect(game.commands(':h')).to be nil
-      end
-    end
-
-    context 'when the game class receives an input as guess' do
-      game = FemisHangman::Game.new(2,2)
-      it 'should process include letter in game history' do
-        allow(game).to receive(:puts).and_return(nil)
-        expect(game.play('h')).to be nil
-      end
-    end
-
-    context 'when printing current game status' do
-      game = FemisHangman::Game.new(2,2)
-      game.history = ['a', 'b', 'c', 'u', 'j', 's']
-      game.word = 'abacus'
-      it 'should print all words contained in the player history' do
-        allow(game).to receive(:puts).and_return(nil)
-        expect(game.show_word).to eq('a b a c u s ')
-      end
-
-      it 'should display all letters in the history' do
-        allow(game).to receive(:puts).and_return(nil)
-        expect(game.game_history).to eq('a b c u j s ')
-      end
-
-      it 'should have won the game' do
+    context 'when game has ended' do
+      it 'should win the game' do
+        game.used_letters = ['e', 'l', 'n', 'o', 'r']
+        game.word = 'elenor'
         expect(game.won?).to be true
-      end
-
-      it 'should not have lost the game' do
         expect(game.lost?).to be false
       end
     end
+  end
 
-    context 'Show output' do
-      game = FemisHangman::Game.new(2,2)
-      game.turns = 0
-      context "Check if game is won" do
-        it { expect(game.won?).to be false }
+  describe '#play' do
+    context 'when the game class receives an input as guess' do
+      it 'should process include letter in game history' do
+        expect(game.play('h')).to be_an Array
       end
-      context "Check if game is lost" do
-        it { expect(game.lost?).to be true }
-      end
-    end
-
-    it 'Should change the status of a game when lost for funny mode' do
-      game = FemisHangman::Game.new(2,2)
-      game.game_won
-      allow(game).to receive(:puts).and_return(nil)
-      expect(game.status).to eq('restart')
-    end
-
-    it 'Should change the status of a game when won for funny mode' do
-      game = FemisHangman::Game.new(2,2)
-      game.game_lost
-      allow(game).to receive(:puts).and_return(nil)
-      expect(game.status).to eq('restart')
-    end
-
-    it 'Should change the status of a game when lost for boring mode' do
-      game = FemisHangman::Game.new(2,1)
-      game.game_won
-      allow(game).to receive(:puts).and_return(nil)
-      expect(game.status).to eq('restart')
-    end
-
-    it 'Should change the status of a game when won for boring mode' do
-      game = FemisHangman::Game.new(2,1)
-      game.game_lost
-      allow(game).to receive(:puts).and_return(nil)
-      expect(game.status).to eq('restart')
-    end
-
-    it 'Should change the status of a when quitted' do
-      game = FemisHangman::Game.new(2,2)
-      game.quit_game
-      allow(game).to receive(:puts).and_return(nil)
-      expect(game.status).to eq('quit')
     end
   end
 end

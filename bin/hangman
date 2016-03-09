@@ -4,4 +4,11 @@ require "femis_hangman"
 
 s = FemisHangman::Router.new
 puts s.instructions_prompt
-s.loop
+
+repl = lambda do |prompt|
+    print prompt
+    s.process(STDIN.gets.chomp.downcase)
+end
+
+repl['% Hangman-0.1.0: '] while s.status.value != 'quit'
+puts s.thanks_prompt

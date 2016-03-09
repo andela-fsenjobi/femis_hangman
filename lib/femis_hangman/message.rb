@@ -108,10 +108,6 @@ The word is #{word}
     "You have #{turns} turns left"
   end
 
-  def print_text(text)
-    "#{text}"
-  end
-
   def thanks_prompt
     'Thank you for playing!'
   end
@@ -119,14 +115,6 @@ The word is #{word}
   def invalid_game_prompt
     'There is no game with such ID'
   end
-
-#   def help_prompt
-#     <<-HELP
-# Press:
-# hangman - to start the hangman game
-# resume `game id` - to resume saved game
-#     HELP
-#   end
 
   def game_instruction_prompt
     <<-PUTS
