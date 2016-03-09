@@ -1,14 +1,35 @@
 --- !ruby/object:FemisHangman::Game
-word: fin-de-siecle
-history: []
-turns: 10
-feedback: 2
-status: quit
+word: premiership
+used_letters:
+- e
+- i
+- o
+- n
+- a
+- t
+- l
+- s
+turns: 3
+feedback: 1
+status: !ruby/object:FemisHangman::Status
+  value: save
 --- !ruby/object:FemisHangman::Game
-word: delegation
-history:
-- f
-- q
-turns: 7
-feedback: 2
-status: quit
+word: bluegrass
+used_letters:
+- '3'
+- a
+- e
+- i
+- o
+- u
+- p
+- l
+- t
+- y
+- b
+- w
+- h
+turns: 1
+feedback: 1
+status: !ruby/object:FemisHangman::Status
+  value: save

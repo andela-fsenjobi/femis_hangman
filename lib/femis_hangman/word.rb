@@ -1,12 +1,14 @@
 module FemisHangman
   class Word
     def generate(difficulty)
-      file = File.open('./dictionary.txt', 'r')
-      rand(41211).times { file.gets }
-      word = clean_word($_)
-      file.close
-      if confirm(difficulty, word) then word
-      else generate(difficulty)
+      File.open('./dictionary.txt', 'r') do |file|
+        rand(41211).times { file.gets }
+        word = clean_word($_)
+        if confirm(difficulty, word)
+          return word
+        else
+          generate(difficulty)
+        end
       end
     end
 
